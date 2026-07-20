@@ -1,0 +1,9 @@
+* text=auto
+
+android/**/build/** linguist-generated=true
+android/.gradle/** linguist-generated=true
+android/.kotlin/** linguist-generated=true
+android/app/.cxx/** linguist-generated=true
+
+android/**/*.jar linguist-vendored
+android/**/*.aar linguist-vendored

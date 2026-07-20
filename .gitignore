@@ -1,5 +1,6 @@
 # OS / editor
 .DS_Store
+Thumbs.db
 .idea/
 *.iml
 .vscode/
@@ -7,12 +8,24 @@
 # Python
 __pycache__/
 *.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
 .venv/
 venv/
+*.log
+
+# Environment and secrets
 .env
 .env.*
+!.env.example
+!**/.env.example
+local.properties
+*.keystore
+*.jks
+*service-account*.json
 
-# Model weights are private and must be provided by project owner
+# Model weights are private and must be provided by the project owner
 *.pt
 *.engine
 *.onnx
@@ -26,7 +39,8 @@ websocket_server/data_collection/
 websocket_server/debug_frames/
 websocket_server/demo_videos/
 websocket_server/runs/
-websocket_server/*.json
+websocket_server/cloud_benchmark*.json
+websocket_server/*_benchmark*.json
 websocket_server/*.avi
 websocket_server/*.mp4
 
@@ -38,6 +52,8 @@ android/.kotlin/
 android/build/
 android/app/build/
 android/app/.cxx/
+*.apk
+*.aab
 
 # Archives / large local artifacts
 *.tar.gz
