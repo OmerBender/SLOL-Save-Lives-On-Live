@@ -1,202 +1,169 @@
 # SLOL WebSocket Server
 
-This folder contains the main SLOL cloud server.
+This folder contains the main SLOL backend server.
 
-The server receives live JPEG frames from Android field devices, runs YOLO inference, returns bounding boxes to the correct Android client, and publishes the same detection events to the Command Center dashboard.
+The server receives live JPEG frames from Android field devices, runs YOLOv8s inference, returns bounding boxes to the correct Android client, serves the browser-based Command Center, and publishes detection events to connected dashboard browsers.
 
-For the full project overview, architecture, dataset description, and Android flow, see the root [`README.md`](../README.md).
+For the complete system overview, see the root [`README.md`](../README.md).
 
 ---
 
-## Server Responsibilities
+## Responsibilities
 
 * Accept Android WebSocket clients
-* Receive live frames from Android / Insta360 X4 devices
-* Run YOLOv8 body-parts detection
-* Return detections to each Android device
+* Decode binary JPEG frames
+* Run the private YOLOv8s model
+* Return detection JSON to Android
 * Serve the Command Center dashboard
-* Publish detection events to connected dashboard browsers
-* Run demo video feeds only when a dashboard event is active
+* Publish dashboard detection events
+* Process optional demo video feeds only when a dashboard event is active
 * Save scenario data only when recording is explicitly requested
 
-The Android app does not talk to a separate dashboard server. This server is the single live backend for inference, Android responses, and dashboard updates.
+---
+
+## Directory Structure
+
+```text
+websocket_server/
+├── server_websocket.py
+├── benchmark_video_inference.py
+├── dashboard_static/
+│   ├── index.html
+│   ├── style.css
+│   └── app.js
+├── weights_private/
+│   └── README.md
+├── .env.example
+└── README.md
+```
+
+Generated runtime folders such as `dashboard_outputs/`, `data_collection/`, `debug_frames/`, `demo_videos/`, and `runs/` are ignored by Git.
 
 ---
 
-## Main Files
+## Requirements
 
-| Path | Purpose |
-| ---- | ------- |
-| `server_websocket.py` | Main FastAPI + WebSocket server |
-| `dashboard_static/` | Browser UI for the Command Center dashboard |
-| `requirements_unified.txt` | Recommended Python dependencies for the unified server |
-| `requirements_websocket.txt` | Legacy/server dependency file |
-| `benchmark_video_inference.py` | Benchmark script for video inference tests |
-| `weights_private/README.md` | Instructions for private model weights |
-
-Private model files such as `best.pt`, `best.engine`, ONNX files, demo videos, and collected datasets are intentionally excluded from Git.
-
----
-
-## Model Runtime
-
-The server supports the trained SLOL YOLO model in private runtime formats:
-
-* `best.pt` for PyTorch inference
-* `best.engine` for TensorRT inference on NVIDIA GPU machines
-
-On Google Cloud, the deployment was validated on a G2 instance with an NVIDIA L4 GPU. TensorRT is preferred for live cloud inference when available.
-
-The model detects:
-
-* `hand`
-* `arm`
-* `head`
-* `leg`
-* `foot`
-* `person`
-
----
-
-## Install
-
-Create and activate a Python virtual environment, then install dependencies:
+Install from the repository root:
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements_unified.txt
-```
-
-Authorized users must place the approved model file in this folder, for example:
-
-```text
-websocket_server/best.pt
-```
-
-or:
-
-```text
-websocket_server/best.engine
+pip install -r requirements.txt
 ```
 
 ---
 
-## Run Locally
+## Environment Configuration
+
+The server reads these optional environment variables:
+
+| Variable | Default |
+| --- | --- |
+| `RESCUE360_DEMO_VIDEO_DIR` | `websocket_server/demo_videos` |
+| `RESCUE360_DASHBOARD_SLOTS` | `5` |
+| `RESCUE360_DASHBOARD_FRAME_INTERVAL_SEC` | `0.4` |
+| `RESCUE360_DASHBOARD_HISTORY_LIMIT` | `500` |
+| `RESCUE360_DEMO_TARGET_FPS` | `8` |
+
+See `.env.example` for safe placeholder values. The server does not currently load `.env` files automatically; export variables in the shell or configure them in the service environment.
+
+---
+
+## Model Setup
+
+The server loads model files from this folder:
+
+```text
+websocket_server/
+```
+
+Runtime selection:
+
+1. If `best.engine` exists, the server uses it.
+2. Otherwise, the server falls back to `best.pt`.
+
+Model files are private and ignored by Git.
+
+See [`weights_private/README.md`](weights_private/README.md) for handoff instructions.
+
+---
+
+## Run
 
 From this folder:
 
 ```bash
-source .venv/bin/activate
 python server_websocket.py
 ```
 
-The server listens on:
+The server listens on port `8000`.
+
+Dashboard:
 
 ```text
-http://0.0.0.0:8000
+http://127.0.0.1:8000/dashboard
+```
+
+Stats:
+
+```text
+http://127.0.0.1:8000/stats
 ```
 
 ---
 
-## Android WebSocket Endpoint
+## Routes
 
-Android clients connect to:
+| Purpose | Route |
+| --- | --- |
+| Android WebSocket | `/ws/{client_id}` |
+| Dashboard | `/dashboard` |
+| Dashboard WebSocket | `/dashboard/ws` |
+| Dashboard info | `/dashboard/api/info` |
+| Dashboard cameras | `/dashboard/api/cameras` |
+| Dashboard detections | `/dashboard/api/detections` |
+| Active dashboard event | `/dashboard/api/events/active` |
+| Start dashboard event | `/dashboard/api/events/start` |
+| Close dashboard event | `/dashboard/api/events/close` |
+| Validate detection | `/dashboard/api/detections/{detection_id}/validate` |
+| Server stats | `/stats` |
+| Recording status | `/recording/status` |
+| Last debug frame | `/debug/last-frame/{client_id}` |
 
-```text
-ws://<SERVER_HOST>:8000/ws/<client_id>?camera_name=<camera_name>
-```
-
-Example format:
-
-```text
-ws://<SERVER_HOST>:8000/ws/android_phone?camera_name=Team+A+-+Rescue+Detector
-```
-
-Android sends binary JPEG frames. The server replies with detection JSON containing class IDs, class names, confidence scores, bounding boxes, latency, and frame count.
-
----
-
-## Command Center Dashboard
-
-The dashboard is served by the same FastAPI server:
-
-```text
-http://<SERVER_HOST>:8000/dashboard
-```
-
-Dashboard browsers connect to:
-
-```text
-ws://<SERVER_HOST>:8000/dashboard/ws
-```
-
-The dashboard displays:
-
-* Demo feeds for project presentation
-* Live Android / Insta360 detection events
-* Detection frame, crop, class, confidence, timestamp, and count
-
-Demo feeds are processed only after a dashboard event is started from the browser UI.
+Protocol details: [`../docs/websocket-protocol.md`](../docs/websocket-protocol.md)
 
 ---
 
 ## Scenario Recording
 
-Scenario recording is used only for controlled data collection and model improvement.
+Scenario recording is used for controlled data collection. It is not part of the permanent operational Command Center flow.
 
-When Android sends a start-recording command, the server creates a scenario folder and saves:
+When Android sends a `start_recording` control message, saved data is written under:
 
 ```text
-data_collection/<scenario_id>/
-├── images/
-├── labels/
-├── annotated/
-└── metadata.json
+websocket_server/data_collection/
 ```
 
-The clean frame is saved separately from the annotated frame. The YOLO label file is generated from the same inference result used for the Android and dashboard response.
-
-Scenario recordings are excluded from Git.
+Each scenario contains clean images, YOLO labels, annotated review images, and metadata.
 
 ---
 
-## Health and Stats
+## Google Cloud Notes
 
-Runtime stats are available at:
+The current Google Cloud VM deployment uses the same `websocket_server` folder name and runs the server through a `systemd` service named `slol`.
 
-```text
-http://<SERVER_HOST>:8000/stats
-```
-
-The response includes connected clients, processed frame counts, average latency, last frame shape, and recording state.
+See [`../docs/deployment.md`](../docs/deployment.md) for deployment and service commands.
 
 ---
 
-## Google Cloud Service
+## Troubleshooting
 
-On the cloud VM, the server can run as a `systemd` service named `slol`:
-
-```bash
-sudo systemctl status slol
-sudo systemctl restart slol
-sudo systemctl stop slol
-sudo journalctl -u slol -f
-```
-
-The service starts:
-
-```text
-/home/<cloud-user>/websocket_server/server_websocket.py
-```
-
-using the project Python environment.
+* If `/dashboard` returns 404, confirm `dashboard_static/index.html` exists.
+* If Android connects but no detections appear, check `/stats` and the server logs.
+* If model loading fails, confirm an authorized `best.engine` or `best.pt` exists in `websocket_server/`.
+* If demo feeds do not appear, confirm the demo video directory and filenames match the values in `server_websocket.py`.
+* If the systemd service is running, do not also run a manual server process on port `8000`.
 
 ---
 
-## Notes
+## Security Notes
 
-* Keep model weights private.
-* Keep credentials out of Git.
-* Do not commit generated datasets, debug frames, benchmark outputs, or demo videos.
-* Use the root README for the complete end-to-end system explanation.
+Do not commit model weights, credentials, cloud keys, local secrets, recordings, demo videos, or generated detection outputs.
