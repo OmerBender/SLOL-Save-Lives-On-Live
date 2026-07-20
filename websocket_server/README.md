@@ -2,7 +2,14 @@
 
 ## Real-Time Life-Saving Detection System
 
+<p align="center">
+  <img src="../assets/images/slol-logo.png" alt="SLOL logo" width="260">
+</p>
+
 ## Overview
+
+![SLOL brand overview](../assets/images/slol-brand-overview.jpeg)
+
 
 SLOL is a real-time computer vision system designed to assist search-and-rescue teams in locating trapped victims in disaster environments.
 
@@ -117,6 +124,9 @@ The Android application does not communicate with a separate dashboard server. I
 ### Android Field Device
 
 The Android application is the real field client.
+
+![Android live field detection](../assets/images/android-live-detection.jpeg)
+
 
 It is responsible for:
 
