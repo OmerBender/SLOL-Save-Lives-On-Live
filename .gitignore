@@ -1,0 +1,47 @@
+# OS / editor
+.DS_Store
+.idea/
+*.iml
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+
+# Model weights are private and must be provided by project owner
+*.pt
+*.engine
+*.onnx
+*.fp16.onnx
+*.tflite
+*.torchscript
+
+# Runtime outputs / generated data
+websocket_server/dashboard_outputs/
+websocket_server/data_collection/
+websocket_server/debug_frames/
+websocket_server/demo_videos/
+websocket_server/runs/
+websocket_server/*.json
+websocket_server/*.avi
+websocket_server/*.mp4
+
+# Android local/build files
+android/local.properties
+android/gradle.properties
+android/.gradle/
+android/.kotlin/
+android/build/
+android/app/build/
+android/app/.cxx/
+
+# Archives / large local artifacts
+*.tar.gz
+*.zip
+*.mp4
+*.mov
+*.avi

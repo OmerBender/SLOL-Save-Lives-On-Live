@@ -1,0 +1,28 @@
+# Copy this file to gradle.properties or set these as environment variables.
+
+# AndroidX Configuration
+android.useAndroidX=true
+android.enableJetifier=true
+
+# Gradle Configuration
+org.gradle.jvmargs=-Xmx4096m
+org.gradle.parallel=true
+org.gradle.caching=true
+
+# Kotlin Configuration
+kotlin.code.style=official
+
+# Workaround for Android JDK image transform / jlink issue on some local setups.
+android.disableJdkImageTransform=true
+
+# Insta360 SDK Maven credentials - request access from Insta360 / project owner.
+INSTA360_MAVEN_USERNAME=your_username
+INSTA360_MAVEN_PASSWORD=your_password
+
+# Cloud WebSocket endpoint used by the Android app.
+# Example: ws://<SERVER_HOST>:8000/ws
+RESCUE360_SERVER_WS_URL=ws://<SERVER_HOST>:8000/ws
+
+# Optional: default Insta360 X4 Wi-Fi password for development devices.
+# If empty, the app should prompt or be configured by the authorized operator.
+INSTA360_X4_WIFI_PASSWORD=

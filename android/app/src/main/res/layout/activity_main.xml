@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/dark_background">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Lives on LIVE"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Status -->
+    <TextView
+        android:id="@+id/status_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ready. Tap 'Connect' to start."
+        android:textSize="14sp"
+        android:textColor="@color/status_gray"
+        android:layout_marginBottom="16dp"
+        android:padding="12dp"
+        android:background="@color/status_bg" />
+
+    <!-- Camera Preview (Main display) -->
+    <ImageView
+        android:id="@+id/camera_preview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scaleType="centerInside"
+        android:contentDescription="Camera feed from Insta360 X4"
+        android:background="@color/preview_bg" />
+
+    <!-- Button Container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:spacing="8dp">
+
+        <!-- Connect Button -->
+        <Button
+            android:id="@+id/btn_connect"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="Connect"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/button_connect"
+            android:textColor="@color/white" />
+
+        <!-- Capture Button -->
+        <Button
+            android:id="@+id/btn_capture"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="Capture"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/button_capture"
+            android:textColor="@color/white"
+            android:enabled="false" />
+
+        <!-- Send to Cloud Button (TODO) -->
+        <Button
+            android:id="@+id/btn_send_to_cloud"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Send"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/button_send"
+            android:textColor="@color/white"
+            android:enabled="false" />
+
+    </LinearLayout>
+
+    <!-- Help Text -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="1. Connect to camera WiFi\n2. Capture frame\n3. Send to server (pending)"
+        android:textSize="12sp"
+        android:textColor="@color/help_text"
+        android:lineSpacingMultiplier="1.5" />
+
+</LinearLayout>

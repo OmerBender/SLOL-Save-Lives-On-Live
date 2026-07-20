@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/dark_background">
+
+    <!-- Top Bar: Title + Status -->
+    <LinearLayout
+        android:id="@+id/top_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:background="@color/status_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Save Lives on LIVE"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/fps_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FPS: 0"
+                android:textSize="12sp"
+                android:textColor="@color/status_gray"
+                android:layout_marginStart="16dp" />
+        </LinearLayout>
+
+        <!-- WiFi Status -->
+        <TextView
+            android:id="@+id/wifi_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Disconnected"
+            android:textSize="12sp"
+            android:textColor="@color/status_gray"
+            android:layout_marginTop="8dp" />
+
+        <!-- Main Status -->
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ready to connect"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+    <!-- Camera Preview with Overlay -->
+    <FrameLayout
+        android:id="@+id/camera_preview_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/preview_bg">
+
+        <!-- Insta360 SDK live preview player -->
+        <com.arashivision.sdkmedia.player.capture.InstaCapturePlayerView
+            android:id="@+id/capture_player_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- Camera Image -->
+        <ImageView
+            android:id="@+id/preview_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:visibility="gone"
+            android:contentDescription="Camera feed from Insta360 X4" />
+
+        <!-- Detection Overlay (Bounding Boxes) -->
+        <com.rescue360.detector.DetectionOverlayView
+            android:id="@+id/detection_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+        <!-- Scenario Recording Indicator -->
+        <TextView
+            android:id="@+id/recording_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="16dp"
+            android:background="@color/button_send"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="REC"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <!-- Scenario Recording Button -->
+        <Button
+            android:id="@+id/btn_record_scenario"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/button_send"
+            android:enabled="false"
+            android:minWidth="190dp"
+            android:text="התחל הקלטת תרחיש"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <!-- Loading Spinner (Centered) -->
+        <ProgressBar
+            android:id="@+id/loading_spinner"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:indeterminate="true" />
+    </FrameLayout>
+
+    <!-- Bottom Controls -->
+    <LinearLayout
+        android:id="@+id/bottom_controls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="@color/status_bg"
+        android:spacing="12dp">
+
+        <!-- Start Button -->
+        <Button
+            android:id="@+id/btn_start"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="START"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/button_connect"
+            android:textColor="@color/white" />
+
+        <!-- Stop Button -->
+        <Button
+            android:id="@+id/btn_stop"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:text="STOP"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/button_send"
+            android:textColor="@color/white"
+            android:enabled="false" />
+    </LinearLayout>
+
+    <!-- Help Text -->
+    <TextView
+        android:id="@+id/help_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1. Tap START\n2. Select camera WiFi\n3. Connect to camera\n4. Live detection begins automatically"
+        android:textSize="11sp"
+        android:textColor="@color/help_text"
+        android:padding="12dp"
+        android:lineSpacingMultiplier="1.6"
+        android:background="@color/dark_background" />
+
+</LinearLayout>

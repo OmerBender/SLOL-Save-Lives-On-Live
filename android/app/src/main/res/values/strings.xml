@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Save Lives on LIVE</string>
+
+    <!-- UI Labels -->
+    <string name="btn_connect">Connect</string>
+    <string name="btn_disconnect">Disconnect</string>
+    <string name="btn_capture">Capture</string>
+    <string name="btn_send">Send to Server</string>
+
+    <!-- Status Messages -->
+    <string name="status_ready">Ready. Tap \'Connect\' to start.</string>
+    <string name="status_connecting">Connecting to camera...</string>
+    <string name="status_connected">✓ Connected to Insta360 X4</string>
+    <string name="status_connection_failed">✗ Connection failed</string>
+    <string name="status_capturing">Capturing frame...</string>
+    <string name="status_captured">✓ Frame captured. Ready to send.</string>
+    <string name="status_capture_failed">✗ Capture failed</string>
+    <string name="status_sending">Sending frame to cloud...</string>
+    <string name="status_send_pending">⚠️ Cloud integration pending (server not ready)</string>
+
+    <!-- Error Messages -->
+    <string name="error_camera_not_connected">Not connected to camera</string>
+    <string name="error_camera_offline">Camera went offline</string>
+    <string name="error_frame_unavailable">No frame available</string>
+
+    <!-- Help Text -->
+    <string name="help_instructions">1. Connect to camera WiFi\n2. Capture frame\n3. Send to server (pending)</string>
+</resources>

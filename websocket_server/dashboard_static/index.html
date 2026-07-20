@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Save Lives on LIVE Command Center</title>
+  <link rel="stylesheet" href="/dashboard/static/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">◉</span>
+      <div>
+        <div class="title">Save Lives on LIVE Command Center</div>
+        <div class="subtitle">Unified demo and live Android detection wall</div>
+      </div>
+    </div>
+    <div class="status-block">
+      <div class="status-pill" id="ws-status">connecting…</div>
+      <div class="status-pill" id="model-pill">model: …</div>
+      <div class="status-pill" id="clock">--:--:--</div>
+    </div>
+  </header>
+
+  <!-- Event control bar -->
+  <section class="event-bar">
+    <div class="event-info">
+      <div class="event-label">Active event</div>
+      <div class="event-name" id="event-name">— no active event —</div>
+      <div class="event-meta" id="event-meta"></div>
+    </div>
+    <div class="event-actions">
+      <button id="btn-close-event" class="btn-danger" disabled>Close Event</button>
+      <button id="btn-start-event" class="btn-primary">Start New Event</button>
+    </div>
+  </section>
+
+  <main class="dashboard">
+    <div class="dashboard-header">
+      <h2>Cameras</h2>
+      <div class="dashboard-meta">
+        <span id="camera-count" class="counter">0 cameras</span>
+        <span class="counter" id="event-detection-count">0 detections</span>
+      </div>
+    </div>
+
+    <div id="camera-grid" class="camera-grid"></div>
+  </main>
+
+  <!-- Modal: per-camera detection details + validation -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-backdrop" data-close="1"></div>
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modal-title">Camera</div>
+          <div class="modal-subtitle" id="modal-subtitle">camera_id</div>
+        </div>
+        <button class="btn-icon" data-close="1" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Modal: start new event -->
+  <div id="event-modal" class="modal hidden">
+    <div class="modal-backdrop" data-close-event="1"></div>
+    <div class="modal-card narrow">
+      <div class="modal-header">
+        <div class="modal-title">Start a new event</div>
+        <button class="btn-icon" data-close-event="1" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="muted">
+          Starting a new event closes the current one (if any). Old detections
+          stay in the database — only the dashboard view is reset.
+        </p>
+        <label for="event-name-input">Event name (optional)</label>
+        <input id="event-name-input" type="text"
+               placeholder="e.g. Building A — Tuesday Sweep"
+               maxlength="200"/>
+        <div class="modal-actions">
+          <button class="btn-ghost" data-close-event="1">Cancel</button>
+          <button id="btn-confirm-start" class="btn-primary">Start Event</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox: browsable detection preview, opened from any thumb in the modal -->
+  <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true">
+    <div class="lb-backdrop" data-lb-close="1"></div>
+    <div class="lb-card">
+      <div class="lb-header">
+        <div class="lb-counter" id="lb-counter">Detection — of —</div>
+        <button class="btn-icon" data-lb-close="1" aria-label="Close">×</button>
+      </div>
+      <div class="lb-body">
+        <button class="lb-arrow lb-arrow-prev" id="lb-arrow-prev" aria-label="Previous">‹</button>
+        <div class="lb-stage">
+          <img id="lb-image" alt="detection preview"/>
+          <div class="lb-hint" id="lb-hint"></div>
+        </div>
+        <button class="lb-arrow lb-arrow-next" id="lb-arrow-next" aria-label="Next">›</button>
+      </div>
+      <div class="lb-meta" id="lb-meta"></div>
+      <div class="lb-actions">
+        <div class="lb-validation" id="lb-validation">
+          <button class="btn-validate correct"   data-status="correct">Correct</button>
+          <button class="btn-validate incorrect" data-status="incorrect">Incorrect</button>
+          <button class="btn-validate unsure"    data-status="unsure">Unsure</button>
+        </div>
+        <div class="lb-nav-buttons">
+          <button class="btn-ghost" id="lb-prev">‹ Previous</button>
+          <button class="btn-ghost" id="lb-next">Next ›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/dashboard/static/app.js"></script>
+</body>
+</html>
