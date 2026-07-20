@@ -76,7 +76,7 @@ OpenCV Client
 FastAPI Detection Server
         |
         v
-YOLOv8 Model
+YOLOv8s Model
         |
         v
 Bounding Boxes + Confidence Scores
