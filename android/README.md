@@ -1,5 +1,9 @@
 # SLOL Android Field App
 
+<p align="center">
+  <img src="../assets/images/slol-logo.png" alt="SLOL logo" width="260">
+</p>
+
 This Android application is the field-device client for SLOL.
 
 It connects to an Insta360 X4 camera over Wi-Fi, displays the live preview, sends selected frames to the cloud WebSocket server, receives YOLO detections, and draws bounding boxes on the Android screen.
