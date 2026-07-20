@@ -12,23 +12,19 @@ SLOL is a real-time rescue-assistance platform that processes live camera frames
 
 ---
 
-## Overview
+## Project Overview
 
 The system combines computer vision, Android field capture, WebSocket communication, cloud GPU inference, and a browser-based Command Center.
 
 A field operator connects an Android device to an Insta360 X4 camera over Wi-Fi. The Android application displays the live preview, sends selected JPEG frames to the cloud inference server, receives YOLO bounding boxes, and draws the detections on the device. The same server can also publish detection events to a Command Center dashboard.
 
+The Android/Insta360 pipeline represents the real field-device flow. Demo video feeds in the dashboard are presentation feeds used to simulate additional teams; they are not physical live cameras.
+
 Private model weights, local credentials, build outputs, scenario recordings, demo videos, and generated dashboard outputs are intentionally excluded from Git.
 
 ---
 
-## Demonstration
-
-The Android/Insta360 pipeline represents the real field-device flow. Demo video feeds in the dashboard are presentation feeds used to simulate additional teams; they are not physical live cameras.
-
----
-
-## Main Features
+## Features
 
 * Live Android/Insta360 X4 camera preview
 * JPEG frame transmission over WebSocket
@@ -63,12 +59,6 @@ Google Cloud Inference Server
 Android Overlay + Command Center Dashboard
 ```
 
-Detailed architecture: [`docs/architecture.md`](docs/architecture.md)
-
-WebSocket protocol: [`docs/websocket-protocol.md`](docs/websocket-protocol.md)
-
-Deployment notes: [`docs/deployment.md`](docs/deployment.md)
-
 ---
 
 ## Technology Stack
@@ -84,119 +74,68 @@ Deployment notes: [`docs/deployment.md`](docs/deployment.md)
 
 ---
 
-## Model Performance
-
-Best validation results achieved during training:
-
-| Metric | Value |
-| --- | ---: |
-| Precision | 0.90 |
-| Recall | 0.88 |
-| mAP@50 | 0.93 |
-| mAP@50-95 | 0.49 |
-
-![Live Android detection result](.github/assets/android-live-detection.jpeg)
-
-Model details documented in this repository:
-
-| Item | Value |
-| --- | --- |
-| Architecture | YOLOv8s object detection |
-| Inference image size | 960 |
-| Classes | hand, arm, head, leg, foot, person |
-| Weights | Private, excluded from Git |
-| TensorRT engine | Supported when `best.engine` is present |
-| Validation image count | Not documented |
-| Validation instance count | Not documented |
-| Epoch count | Not documented |
-| Dataset version | Not documented |
-
----
-
 ## Dataset
 
-The model was trained on a custom body-parts dataset created for disaster-response-style scenarios.
+The dataset contains approximately 2,000 images, including labeled images and additional background-only negative images used to reduce false positives.
 
-Dataset characteristics documented by the project owner:
+Additional negative images are included in the dataset but are intentionally not counted as labeled images.
 
-* Annotated body-part instances
-* Positive and negative samples
-* Rescue-like and cluttered environments
-* Body-part classes: hand, arm, head, leg, foot, person
-* Background-only examples to reduce false positives
-* Data derived from camera footage and selected viewing angles
+| Split | Images |
+| --- | ---: |
+| Train | 1401 |
+| Validation | 338 |
+| Total labeled images | 1739 |
+| Approximate total images | ~2000 |
+| Total objects | 4542 |
 
-Approximate class distribution:
+Class distribution:
 
 | Class | Objects |
 | --- | ---: |
-| Hand | 1000+ |
-| Arm | 700+ |
-| Head | 800+ |
-| Leg | 700+ |
-| Foot | 600+ |
-| Person | 500+ |
+| Hand | 1020 |
+| Head | 860 |
+| Arm | 785 |
+| Leg | 728 |
+| Foot | 613 |
+| Person | 536 |
+| **Total** | **4542** |
 
 ---
 
-## Project Status
+## Training Configuration
 
-| Component | Status |
+| Parameter | Value |
 | --- | --- |
-| YOLO body-part model | Working, weights private |
-| Cloud inference server | Working |
-| Android WebSocket client | Working |
-| Android detection overlay | Working |
-| Command Center dashboard | Working |
-| Insta360 X4 live integration | Working in the Android app |
-| Simulated dashboard feeds | Simulated for demonstration |
-| Multi-camera physical deployment | In progress |
-| Scenario recording | Working, used for data collection |
-| Production authentication | Planned |
-| HTTPS/WSS production proxy | Planned |
-| Public model weights | Not included in the public repository |
+| Model | YOLOv8s |
+| Input Resolution | 960 × 960 |
+| Training Images | 1401 |
+| Validation Images | 338 |
+| Total Labeled Images | 1739 |
+| Approximate Total Images | ~2000 |
+| Total Objects | 4542 |
 
 ---
 
-## Repository Structure
+## Model Performance
 
-```text
-SLOL-Save-Lives-On-Live/
-├── .github/
-│   ├── assets/
-│   └── workflows/
-├── android/
-│   ├── app/
-│   ├── README.md
-│   └── gradle.properties.example
-├── docs/
-│   ├── architecture.md
-│   ├── deployment.md
-│   └── websocket-protocol.md
-├── tests/
-├── websocket_server/
-│   ├── server_websocket.py
-│   ├── benchmark_video_inference.py
-│   ├── dashboard_static/
-│   ├── weights_private/
-│   └── README.md
-├── requirements.txt
-├── CONTRIBUTING.md
-├── LICENSE.md
-└── README.md
-```
+Deployment model results:
 
-The repository folder is named `websocket_server`. The current Google Cloud VM deployment also uses that folder name. It was not renamed to avoid breaking the existing working deployment.
+| Metric | Value |
+| --- | ---: |
+| Model | YOLOv8s |
+| Input Resolution | 960 × 960 |
+| Precision | 0.890 |
+| Recall | 0.892 |
+| mAP@50 | 0.932 |
+| mAP@50-95 | 0.482 |
+
+![Live Android detection result](.github/assets/android-live-detection.jpeg)
+
+Model weights are private and excluded from Git. The server uses `best.engine` when available and falls back to `best.pt`.
 
 ---
 
-## Quick Start Links
-
-* Backend server: [`websocket_server/README.md`](websocket_server/README.md)
-* Android app: [`android/README.md`](android/README.md)
-* Architecture: [`docs/architecture.md`](docs/architecture.md)
-* WebSocket protocol: [`docs/websocket-protocol.md`](docs/websocket-protocol.md)
-* Deployment: [`docs/deployment.md`](docs/deployment.md)
+## Quick Start
 
 Install Python server dependencies from the repository root:
 
@@ -204,24 +143,30 @@ Install Python server dependencies from the repository root:
 pip install -r requirements.txt
 ```
 
+Backend server:
+
+```bash
+cd websocket_server
+python server_websocket.py
+```
+
+Dashboard:
+
+```text
+http://127.0.0.1:8000/dashboard
+```
+
+Android setup is documented in [`android/README.md`](android/README.md).
+
 ---
 
-## Authors
+## Documentation
 
-### Omer Bender
-
-Computer Science Student  
-Machine Learning & Computer Vision Developer
-
-### Eithan Shaoat
-
-Project Contributor
-
----
-
-## License
-
-No open-source license has currently been selected. The source code may be viewed for evaluation, but reuse, redistribution, or commercial deployment rights are not granted unless explicitly authorized by the project owner.
+* Backend server: [`websocket_server/README.md`](websocket_server/README.md)
+* Android app: [`android/README.md`](android/README.md)
+* Architecture: [`docs/architecture.md`](docs/architecture.md)
+* WebSocket protocol: [`docs/websocket-protocol.md`](docs/websocket-protocol.md)
+* Deployment: [`docs/deployment.md`](docs/deployment.md)
 
 ---
 
