@@ -32,7 +32,7 @@ websocket_server/
 │   ├── style.css
 │   └── app.js
 ├── weights_private/
-│   └── README.md
+│   └── README.md              # documentation only; runtime weights are not stored here
 ├── .env.example
 └── README.md
 ```
@@ -69,16 +69,19 @@ See `.env.example` for safe placeholder values. The server does not currently lo
 
 ## Model Setup
 
-The server loads model files from this folder:
+The runtime loads model files directly from:
 
 ```text
-websocket_server/
+websocket_server/best.engine
+websocket_server/best.pt
 ```
 
-Runtime selection:
+`weights_private/` contains documentation and handoff instructions only. It is not the runtime model directory.
 
-1. If `best.engine` exists, the server uses it.
-2. Otherwise, the server falls back to `best.pt`.
+Runtime selection confirmed by `server_websocket.py`:
+
+1. If `best.engine` exists directly in `websocket_server/`, the server uses it.
+2. Otherwise, the server falls back to `best.pt` directly in `websocket_server/`.
 
 Model files are private and ignored by Git.
 
@@ -127,6 +130,12 @@ http://127.0.0.1:8000/stats
 | Server stats | `/stats` |
 | Recording status | `/recording/status` |
 | Last debug frame | `/debug/last-frame/{client_id}` |
+
+Android WebSocket example:
+
+```text
+ws://<SERVER_HOST>:8000/ws/<CLIENT_ID>?camera_name=<CAMERA_NAME>
+```
 
 Protocol details: [`../docs/websocket-protocol.md`](../docs/websocket-protocol.md)
 

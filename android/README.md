@@ -73,10 +73,16 @@ The WebSocket base URL is configured with:
 RESCUE360_SERVER_WS_URL
 ```
 
-Expected format:
+Base URL format configured in Android:
 
 ```text
 ws://<SERVER_HOST>:8000/ws
+```
+
+The final WebSocket route used by the server is:
+
+```text
+ws://<SERVER_HOST>:8000/ws/<CLIENT_ID>?camera_name=<CAMERA_NAME>
 ```
 
 The app appends the Android client identity when connecting to the server.
