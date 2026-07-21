@@ -55,6 +55,7 @@ FastAPI WebSocket Server
       +--> dashboard event updates
       v
 Android Overlay + Command Center Dashboard
+```
 ## Live Detection Sequence
 
 The following sequence diagram illustrates the complete live detection flow from the Insta360 X4 camera to the Android overlay and Command Center dashboard.
