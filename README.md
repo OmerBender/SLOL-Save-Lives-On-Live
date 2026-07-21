@@ -139,26 +139,39 @@ Model weights are private and excluded from Git. The server uses `best.engine` w
 
 ## Quick Start
 
-Install Python server dependencies from the repository root:
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/OmerBender/SLOL-Save-Lives-On-Live.git
+cd SLOL-Save-Lives-On-Live
+```
+
+### 2. Install Server Dependencies
+
+Install the Python server dependencies from the repository root:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Backend server:
+### 3. Start the Backend Server
 
 ```bash
 cd websocket_server
 python server_websocket.py
 ```
 
-Dashboard:
+### 4. Open the Dashboard
+
+After the server starts, open:
 
 ```text
 http://127.0.0.1:8000/dashboard
 ```
 
-Android setup is documented in [`android/README.md`](android/README.md).
+> The private YOLO model weights are not included in the repository.  
+> Place the required model files in the location described in [`websocket_server/README.md`](websocket_server/README.md) before starting inference.
+> Android setup is documented in [`android/README.md`](android/README.md).
 
 Lightweight repository structure and documentation validation:
 
