@@ -38,3 +38,7 @@ Recommended prefixes:
 ## Architecture Changes
 
 Explain major architecture changes in the pull request and update the relevant files under `docs/`.
+
+## Validation Scope
+
+The current tests are lightweight repository structure and documentation validation checks. They do not test YOLO inference, WebSocket runtime behavior, FastAPI endpoint behavior, GPU execution, or Android integration.

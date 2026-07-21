@@ -24,6 +24,8 @@ local.properties
 *.keystore
 *.jks
 *service-account*.json
+credentials*.json
+service-account*.json
 
 # Model weights are private and must be provided by the project owner
 *.pt

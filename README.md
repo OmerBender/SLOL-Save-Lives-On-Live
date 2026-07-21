@@ -131,6 +131,8 @@ Deployment model results:
 
 ![Live Android detection result](.github/assets/android-live-detection.jpeg)
 
+<!-- TODO: Add real Command Center screenshot -->
+
 Model weights are private and excluded from Git. The server uses `best.engine` when available and falls back to `best.pt`.
 
 ---
@@ -157,6 +159,15 @@ http://127.0.0.1:8000/dashboard
 ```
 
 Android setup is documented in [`android/README.md`](android/README.md).
+
+Lightweight repository structure and documentation validation:
+
+```bash
+python3 -m compileall websocket_server tests
+python3 -m unittest discover -s tests
+```
+
+These checks do not run YOLO inference, WebSocket runtime behavior, GPU execution, or Android integration.
 
 ---
 

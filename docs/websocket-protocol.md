@@ -11,7 +11,7 @@ This document describes the WebSocket and HTTP routes confirmed in `websocket_se
 Android may pass a camera name through query parameters:
 
 ```text
-ws://<SERVER_HOST>:8000/ws/<client_id>?camera_name=<camera_name>
+ws://<SERVER_HOST>:8000/ws/<CLIENT_ID>?camera_name=<CAMERA_NAME>
 ```
 
 The server also accepts `name` as a fallback query parameter for the camera name.
@@ -35,7 +35,7 @@ The server replies with JSON messages of type `detections`:
 ```json
 {
   "type": "detections",
-  "client_id": "android_phone",
+  "client_id": "<CLIENT_ID>",
   "detections": [
     {
       "class_id": 2,
