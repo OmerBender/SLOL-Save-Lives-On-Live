@@ -34,7 +34,6 @@ The dashboard can display:
 
 Simulated feeds are processed only when a dashboard event is active.
 
-````markdown
 ## Data Flow
 
 ```text
@@ -56,6 +55,9 @@ FastAPI WebSocket Server
       v
 Android Overlay + Command Center Dashboard
 ```
+
+---
+
 ## Live Detection Sequence
 
 The following sequence diagram illustrates the complete live detection flow from the Insta360 X4 camera to the Android overlay and Command Center dashboard.
@@ -68,8 +70,8 @@ The following sequence diagram illustrates the complete live detection flow from
 </p>
 
 ---
-## Real Versus Simulated Sources
 
+## Real Versus Simulated Sources
 The Android/Insta360 source represents the real field-device pipeline.
 
 The dashboard demo feeds represent additional teams for presentation and testing. They are local video files processed by the server only after a dashboard event is started.
