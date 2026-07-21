@@ -25,9 +25,8 @@ local.properties
 *.jks
 *service-account*.json
 credentials*.json
-service-account*.json
 
-# Model weights are private and must be provided by the project owner
+# Model weights and exported models
 *.pt
 *.engine
 *.onnx
@@ -43,8 +42,6 @@ websocket_server/demo_videos/
 websocket_server/runs/
 websocket_server/cloud_benchmark*.json
 websocket_server/*_benchmark*.json
-websocket_server/*.avi
-websocket_server/*.mp4
 
 # Android local/build files
 android/local.properties
