@@ -78,14 +78,30 @@ Android Overlay + Command Center Dashboard
 
 ## Dataset
 
-The dataset contains approximately 2,000 images, including labeled images and additional background-only negative images used to reduce false positives.
+The training data was prepared from selected Insta360 video material and converted into a custom YOLO object-detection dataset.
+
+```text
+Insta360 video
+  -> selected or cropped camera angle
+  -> MP4 conversion
+  -> frame extraction
+  -> manual annotation
+  -> YOLO dataset preparation
+  -> YOLOv8s training
+  -> trained weights: best.pt
+  -> optional TensorRT export: best.engine
+```
+
+The dataset contains approximately 2,000 images, including labeled images and additional background-only negative images used to reduce false-positive detections.
 
 Negative images are intentionally not counted as labeled images because they do not contain annotated objects.
 
-| Split | Images |
+### Dataset Summary
+
+| Metric | Value |
 | --- | ---: |
-| Train | 1,401 |
-| Validation | 338 |
+| Training images | 1,401 |
+| Validation images | 338 |
 | **Total labeled images** | **1,739** |
 | **Approximate total images** | **~2,000** |
 | **Total annotated objects** | **4,542** |
@@ -131,11 +147,24 @@ Results for the model selected for deployment:
 | mAP@50 | 0.932 |
 | mAP@50–95 | 0.482 |
 
+### Detection Classes
+
+| ID | Class |
+| ---: | --- |
+| 0 | hand |
+| 1 | arm |
+| 2 | head |
+| 3 | leg |
+| 4 | foot |
+| 5 | person |
+
+The model performs object detection and returns bounding boxes, class IDs, class names, and confidence scores. It does not return segmentation masks or pose keypoints.
+
 ![Live Android detection result](.github/assets/android-live-detection.jpeg)
 
 <!-- TODO: Add real Command Center screenshot -->
 
-Model weights are private and excluded from Git. The server uses `best.engine` when available and falls back to `best.pt`.
+Model weights are private and excluded from Git. At runtime, the server uses `best.engine` when available and falls back to `best.pt`.
 
 ---
 
