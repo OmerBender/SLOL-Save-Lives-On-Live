@@ -55,7 +55,18 @@ FastAPI WebSocket Server
       v
 Android Overlay + Command Center Dashboard
 ```
+## Live Detection Sequence
 
+The following sequence diagram illustrates the complete live detection flow from the Insta360 X4 camera to the Android overlay and Command Center dashboard.
+
+<p align="center">
+  <img
+    src="../.github/assets/slol-sequence-diagram.png"
+    alt="SLOL live detection sequence diagram"
+    width="100%">
+</p>
+
+---
 ## Real Versus Simulated Sources
 
 The Android/Insta360 source represents the real field-device pipeline.
