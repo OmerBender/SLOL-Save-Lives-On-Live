@@ -1,14 +1,16 @@
-# SLOL - Save Lives On Live
+# SLOL – Save Lives On Live
 
 <p align="center">
   <img src=".github/assets/slol-brand-overview.jpeg" alt="SLOL Save Lives On Live" width="520">
 </p>
 
-<p align="center"><strong>Android + Insta360 X4 -> Cloud YOLO Inference -> Android Overlay + Command Center</strong></p>
+<p align="center">
+  <strong>Android + Insta360 X4 → Cloud YOLO Inference → Android Overlay + Command Center</strong>
+</p>
 
-SLOL is a real-time rescue-assistance platform that processes live camera frames with a custom YOLOv8s model to help identify visible signs of potentially trapped victims.
+SLOL is a real-time rescue-assistance platform that processes live camera frames using a custom YOLOv8s model to help identify visible signs of potentially trapped victims.
 
-"SLOL - Save Lives On Live" is the project's product name. The system is designed to support life-saving decisions through live video analysis; it does not make emergency decisions by itself.
+**SLOL – Save Lives On Live** is the project's product name. The system is designed to support rescue-team decision-making through live video analysis; it does not make emergency decisions independently.
 
 ---
 
@@ -16,7 +18,7 @@ SLOL is a real-time rescue-assistance platform that processes live camera frames
 
 The system combines computer vision, Android field capture, WebSocket communication, cloud GPU inference, and a browser-based Command Center.
 
-A field operator connects an Android device to an Insta360 X4 camera over Wi-Fi. The Android application displays the live preview, sends selected JPEG frames to the cloud inference server, receives YOLO bounding boxes, and draws the detections on the device. The same server can also publish detection events to a Command Center dashboard.
+A field operator connects an Android device to an Insta360 X4 camera over Wi-Fi. The Android application displays the live preview, sends selected JPEG frames to the cloud inference server, receives YOLO bounding boxes, and draws the detections on the device. The same server can also publish detection events to the Command Center dashboard.
 
 The Android/Insta360 pipeline represents the real field-device flow. Demo video feeds in the dashboard are presentation feeds used to simulate additional teams; they are not physical live cameras.
 
@@ -26,14 +28,14 @@ Private model weights, local credentials, build outputs, scenario recordings, de
 
 ## Features
 
-* Live Android/Insta360 X4 camera preview
-* JPEG frame transmission over WebSocket
-* Cloud-based YOLOv8s inference
-* Bounding-box results returned to Android
-* Browser-based Command Center dashboard
-* Optional simulated dashboard feeds for presentation
-* Controlled scenario recording for future dataset improvement
-* TensorRT model support on NVIDIA GPU machines when an exported engine is available
+- Live Android/Insta360 X4 camera preview
+- JPEG frame transmission over WebSocket
+- Cloud-based YOLOv8s inference
+- Bounding-box results returned to Android
+- Browser-based Command Center dashboard
+- Optional simulated dashboard feeds for presentation
+- Controlled scenario recording for future dataset improvement
+- TensorRT model support on NVIDIA GPU machines when an exported engine is available
 
 ---
 
@@ -65,8 +67,8 @@ Android Overlay + Command Center Dashboard
 
 | Area | Technologies |
 | --- | --- |
-| Computer vision | YOLOv8s, Ultralytics, OpenCV, NumPy |
-| ML runtime | PyTorch, TensorRT |
+| Computer Vision | YOLOv8s, Ultralytics, OpenCV, NumPy |
+| ML Runtime | PyTorch, TensorRT |
 | Backend | Python, FastAPI, WebSockets, Uvicorn |
 | Mobile | Android, Kotlin, Insta360 Android SDK |
 | Dashboard | HTML, CSS, JavaScript, WebSocket updates |
@@ -78,27 +80,27 @@ Android Overlay + Command Center Dashboard
 
 The dataset contains approximately 2,000 images, including labeled images and additional background-only negative images used to reduce false positives.
 
-Additional negative images are included in the dataset but are intentionally not counted as labeled images.
+Negative images are intentionally not counted as labeled images because they do not contain annotated objects.
 
 | Split | Images |
 | --- | ---: |
-| Train | 1401 |
+| Train | 1,401 |
 | Validation | 338 |
-| Total labeled images | 1739 |
-| Approximate total images | ~2000 |
-| Total objects | 4542 |
+| **Total labeled images** | **1,739** |
+| **Approximate total images** | **~2,000** |
+| **Total annotated objects** | **4,542** |
 
-Class distribution:
+### Class Distribution
 
 | Class | Objects |
 | --- | ---: |
-| Hand | 1020 |
+| Hand | 1,020 |
 | Head | 860 |
 | Arm | 785 |
 | Leg | 728 |
 | Foot | 613 |
 | Person | 536 |
-| **Total** | **4542** |
+| **Total** | **4,542** |
 
 ---
 
@@ -108,17 +110,17 @@ Class distribution:
 | --- | --- |
 | Model | YOLOv8s |
 | Input Resolution | 960 × 960 |
-| Training Images | 1401 |
+| Training Images | 1,401 |
 | Validation Images | 338 |
-| Total Labeled Images | 1739 |
-| Approximate Total Images | ~2000 |
-| Total Objects | 4542 |
+| Total Labeled Images | 1,739 |
+| Approximate Total Images | ~2,000 |
+| Total Annotated Objects | 4,542 |
 
 ---
 
 ## Model Performance
 
-Deployment model results:
+Results for the model selected for deployment:
 
 | Metric | Value |
 | --- | ---: |
@@ -127,7 +129,7 @@ Deployment model results:
 | Precision | 0.890 |
 | Recall | 0.892 |
 | mAP@50 | 0.932 |
-| mAP@50-95 | 0.482 |
+| mAP@50–95 | 0.482 |
 
 ![Live Android detection result](.github/assets/android-live-detection.jpeg)
 
@@ -154,14 +156,22 @@ Install the Python server dependencies from the repository root:
 pip install -r requirements.txt
 ```
 
-### 3. Start the Backend Server
+### 3. Add the Private Model Weights
+
+The private YOLO model weights are not included in the repository.
+
+Place the required model files in the location described in:
+
+[`websocket_server/README.md`](websocket_server/README.md)
+
+### 4. Start the Backend Server
 
 ```bash
 cd websocket_server
 python server_websocket.py
 ```
 
-### 4. Open the Dashboard
+### 5. Open the Dashboard
 
 After the server starts, open:
 
@@ -169,11 +179,15 @@ After the server starts, open:
 http://127.0.0.1:8000/dashboard
 ```
 
-> The private YOLO model weights are not included in the repository.  
-> Place the required model files in the location described in [`websocket_server/README.md`](websocket_server/README.md) before starting inference.
-> Android setup is documented in [`android/README.md`](android/README.md).
+Android setup is documented in:
 
-Lightweight repository structure and documentation validation:
+[`android/README.md`](android/README.md)
+
+---
+
+## Repository Validation
+
+The repository includes lightweight structure and documentation validation:
 
 ```bash
 python3 -m compileall websocket_server tests
@@ -186,11 +200,11 @@ These checks do not run YOLO inference, WebSocket runtime behavior, GPU executio
 
 ## Documentation
 
-* Backend server: [`websocket_server/README.md`](websocket_server/README.md)
-* Android app: [`android/README.md`](android/README.md)
-* Architecture: [`docs/architecture.md`](docs/architecture.md)
-* WebSocket protocol: [`docs/websocket-protocol.md`](docs/websocket-protocol.md)
-* Deployment: [`docs/deployment.md`](docs/deployment.md)
+- [Backend Server](websocket_server/README.md)
+- [Android Application](android/README.md)
+- [System Architecture](docs/architecture.md)
+- [WebSocket Protocol](docs/websocket-protocol.md)
+- [Deployment](docs/deployment.md)
 
 ---
 
