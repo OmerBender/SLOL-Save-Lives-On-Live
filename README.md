@@ -138,15 +138,12 @@ Negative images are intentionally not counted as labeled images because they do 
 
 Results for the model selected for deployment:
 
-| Parameter                | Value     |
-| ------------------------ | --------- |
-| Model                    | YOLOv8s   |
-| Input Resolution         | 960 × 960 |
-| Training Images          | 2,268     |
-| Validation Images        | 431       |
-| Total Annotated Images   | 2,058     |
-| Total Images             | 2,699     |
-| Total Annotated Objects  | 5,345     |
+| Metric      | Value |
+| ----------- | ----: |
+| Precision   | 0.905 |
+| Recall      | 0.907 |
+| mAP@50      | 0.937 |
+| mAP@50–95   | 0.498 |
 
 ### Detection Classes
 
