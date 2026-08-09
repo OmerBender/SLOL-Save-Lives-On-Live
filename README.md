@@ -163,7 +163,7 @@ The model performs object detection and returns bounding boxes, class IDs, class
 
 ![Live Android detection result](.github/assets/android-live-detection.jpeg)
 
-<!-- TODO: Add real Command Center screenshot -->
+![Command Center screenshot](.github/assets/צילום%20מסך%202026-08-03%20ב-14.34.53.png)
 
 Model weights are private and excluded from Git. At runtime, the server uses `best.engine` when available and falls back to `best.pt`.
 
