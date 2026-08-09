@@ -20,7 +20,7 @@ The app connects to an Insta360 X4 over Wi-Fi, displays the live preview, sends 
 * Send optional start/stop recording control messages to the server
 
 The Android app does not include the YOLO model. Inference runs on the server.
-
+![Android trapped victim alert](.github/assets/התראתלכוד.png)
 ---
 
 ## Configuration
