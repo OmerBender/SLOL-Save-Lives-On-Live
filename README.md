@@ -122,15 +122,15 @@ Negative images are intentionally not counted as labeled images because they do 
 
 ## Training Configuration
 
-| Parameter | Value |
-| --- | --- |
-| Model | YOLOv8s |
-| Input Resolution | 960 × 960 |
-| Training Images | 1,401 |
-| Validation Images | 338 |
-| Total Labeled Images | 1,739 |
-| Approximate Total Images | ~2,000 |
-| Total Annotated Objects | 4,542 |
+| Parameter               | Value     |
+| ----------------------- | --------- |
+| Model                   | YOLOv8s   |
+| Input Resolution        | 960 × 960 |
+| Training Images         | 2,268     |
+| Validation Images       | 431       |
+| Total Annotated Images  | 2,058     |
+| Total Images            | 2,699     |
+| Total Annotated Objects | 5,345     |
 
 ---
 
