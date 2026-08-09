@@ -98,25 +98,25 @@ Negative images are intentionally not counted as labeled images because they do 
 
 ### Dataset Summary
 
-| Metric | Value |
-| --- | ---: |
-| Training images | 1,401 |
-| Validation images | 338 |
-| **Total labeled images** | **1,739** |
-| **Approximate total images** | **~2,000** |
-| **Total annotated objects** | **4,542** |
+| Metric                      |       Value |
+| --------------------------- | ----------: |
+| Training images             |       2,268 |
+| Validation images           |         431 |
+| **Total annotated images**  |   **2,058** |
+| **Total images**            |   **2,699** |
+| **Total annotated objects** |   **5,345** |
 
 ### Class Distribution
 
-| Class | Objects |
-| --- | ---: |
-| Hand | 1,020 |
-| Head | 860 |
-| Arm | 785 |
-| Leg | 728 |
-| Foot | 613 |
-| Person | 536 |
-| **Total** | **4,542** |
+| Class     | Objects |
+| --------- | ------: |
+| Hand      |   1,284 |
+| Head      |   1,002 |
+| Arm       |     955 |
+| Leg       |     833 |
+| Foot      |     712 |
+| Person    |     559 |
+| **Total** | **5,345** |
 
 ---
 
@@ -138,14 +138,15 @@ Negative images are intentionally not counted as labeled images because they do 
 
 Results for the model selected for deployment:
 
-| Metric | Value |
-| --- | ---: |
-| Model | YOLOv8s |
-| Input Resolution | 960 × 960 |
-| Precision | 0.890 |
-| Recall | 0.892 |
-| mAP@50 | 0.932 |
-| mAP@50–95 | 0.482 |
+| Parameter                | Value     |
+| ------------------------ | --------- |
+| Model                    | YOLOv8s   |
+| Input Resolution         | 960 × 960 |
+| Training Images          | 2,268     |
+| Validation Images        | 431       |
+| Total Annotated Images   | 2,058     |
+| Total Images             | 2,699     |
+| Total Annotated Objects  | 5,345     |
 
 ### Detection Classes
 
